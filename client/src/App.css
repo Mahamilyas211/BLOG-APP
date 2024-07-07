@@ -3,6 +3,7 @@
   margin: 0px;
   box-sizing: border-box;
 }
+
 .navbar-header {
   width: 100%;
   height: 40px;
@@ -69,4 +70,64 @@
   color: white;
   font-weight: bolder;
   cursor: pointer;
+}
+
+.post_form {
+  
+  width: 50%;
+  border: 1px solid gray;
+  padding: 20px;
+}
+.post_form input, .post_form textarea, .post_form button {
+  width: 100%;
+  margin: 10px 0px;
+  padding: 8px;
+  border: 1px solid gray;
+}
+.post_form .file {
+  border: 1px solid gray;
+}
+.post_form button {
+  cursor: pointer;
+  background-color: green;
+  color: white;
+}
+
+.posts_container {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post {
+  width: 80%;
+  margin: 10px;
+  border: 1px solid gray;
+  padding: 10px;
+  display: flex;
+  text-decoration: none;
+  color: black;
+}
+.post img {
+  width: 200px;
+  height: 200px;
+}
+.post .post_text {
+  margin-left: 10px;
+}
+.post_post {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 20px 0px;
+}
+
+.post_post img {
+  width: 100%;
+  height: 450px;
+}
+
+.post_post button {
+  width: 10%;
 }

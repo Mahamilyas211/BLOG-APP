@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser')
 const multer = require('multer')
 const path = require('path')
 const UserModel = require('./models/UserModel')
+const PostModel = require('./models/PostModel')
 
 
 
@@ -18,6 +19,7 @@ app.use(cors({
     credentials: true
 }))
 app.use(cookieParser())
+app.use (express.static('public'))
 mongoose.connect('mongodb+srv://mahamilyas211:moin255@cluster0.6rf32mu.mongodb.net/blog')
 
 
@@ -76,6 +78,40 @@ app.post('/login', (req, res) => {
         }
     })
 })
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'Public/Images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
+
+app.post('/create', verifyUser, upload.single('file'), (req, res) => {
+    PostModel.create({title: req.body.title, 
+        description: req.body.description, 
+        file: req.file.filename, email: req.body.email})
+        .then(result => res.json("Success"))
+        .catch(err => res.json(err))
+} )
+
+app.get('/getposts', (req, res) => {
+    PostModel.find()
+    .then(posts => res.json(posts))
+    .catch(err => res.json(err))
+})
+
+app.get('/getpostbyid/:id', (req, res) => {
+    const id = req.params.id
+    PostModel.findById({_id: id})
+    .then(post => res.json(post))
+    .catch(err => console.log(err))
+})                  
 
 app.get ('/logout', (req, res) => {
 res.clearCookie('token');
