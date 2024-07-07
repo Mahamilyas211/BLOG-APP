@@ -14,7 +14,11 @@ const PostModel = require('./models/PostModel')
 const app = express()
 app.use(express.json())
 app.use(cors({
+<<<<<<< HEAD
     origin: ["https://blog-app-frontend-livid.vercel.app"],
+=======
+    origin: ["http://localhost:5173"],
+>>>>>>> parent of 5e55799 (vercel deploy)
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }))
