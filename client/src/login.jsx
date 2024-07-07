@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
-import { Link, useNavigate  } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 
 const Login = () => {
-    const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -14,9 +14,9 @@ const Login = () => {
     e.preventDefault();
     axios.post('http://localhost:3001/login', { email, password })
       .then(res => {
-        if (res.data === "Success"){
-            navigate('/')
-     }
+        if (res.data === "Success") {
+          navigate('/')
+        }
       })
       .catch(err => console.log(err));
   }

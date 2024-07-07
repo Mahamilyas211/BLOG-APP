@@ -10,38 +10,38 @@ function Navbar() {
 
     const handleLogout = () => {
         axios.get('http://localhost:3001/logout')
-        .then(res => {
-            if(res.data === "Success")
-            window.location.href = "/"
-        }).catch(err => console.log(err))
+            .then(res => {
+                if (res.data === "Success")
+                    window.location.href = "/"
+            }).catch(err => console.log(err))
     }
-    
-  return (
-    <div className='navbar-header'>
-        <div><h3>Blog App</h3></div>
-        <div>
-            <Link to="/" className='link'>Home</Link>
-            {
-                user.name ?
+
+    return (
+        <div className='navbar-header'>
+            <div><h3>Blog App</h3></div>
+            <div>
+                <Link to="/" className='link'>Home</Link>
+                {
+                    user.name ?
+                        <Link to="/create" className='link'>Create</Link>
+                        : <></>
+
+                }
                 <Link to="/create" className='link'>Create</Link>
-                : <></>
+
+                <a href="" className='link'>Contact</a>
+            </div>
+            {
+                user.username ?
+                    <div>
+                        <input type="button" onClick={handleLogout} value="Logout" className='btn_input' />
+                    </div>
+                    :
+                    <div><h5><Link to="/register" className="link">Register/Login</Link></h5></div>
 
             }
-            <Link to="/create" className='link'>Create</Link>
-
-            <a href="" className='link'>Contact</a>
         </div>
-        {
-            user.username ?
-            <div>
-                <input type="button" onClick={handleLogout} value="Logout" className='btn_input'/>
-            </div>
-            :
-            <div><h5><Link to="/register" className="link">Register/Login</Link></h5></div>
-    
-        }
-    </div>
-  )
+    )
 }
 
 export default Navbar
