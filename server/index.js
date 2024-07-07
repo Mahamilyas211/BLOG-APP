@@ -14,7 +14,7 @@ const PostModel = require('./models/PostModel')
 const app = express()
 app.use(express.json())
 app.use(cors({
-    origin: ["http://deploy-blogapp-1whq.vercel.app"],
+    origin: ["https://blog-app-frontend-livid.vercel.app/"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }))
