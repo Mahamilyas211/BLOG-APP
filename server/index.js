@@ -20,6 +20,28 @@ app.use(cors({
 app.use(cookieParser())
 mongoose.connect('mongodb+srv://mahamilyas211:moin255@cluster0.6rf32mu.mongodb.net/blog')
 
+
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if(!token) {
+        return res.json("The token is missing")
+    } else {
+        jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+            if(err) {
+                return res.json("The token is wrong")
+            } else {
+                req.email = decoded.email;
+                req.username = decoded.username;
+                next()
+            }
+        })
+    }
+}
+
+app.get('/',verifyUser, (req, res) => {
+    return res.json({email: req.email, username: req.username})
+})
+
 app.post('/register' , (req,res) => {
     const {username, email, password} = req.body;
 bcrypt.hash(password, 10)
@@ -30,6 +52,34 @@ bcrypt.hash(password, 10)
 .catch(err => res.json(err))
 }).catch(err => console.log(err))
 
+})
+
+
+app.post('/login', (req, res) => {
+    const {email, password} = req.body;
+    console.log(email);
+    UserModel.findOne({email: email})
+    .then(user => {
+        if(user) {
+            bcrypt.compare(password, user.password, (err, response) => {
+                if(response) {
+                    const token = jwt.sign({email: user.email, username: user.username},
+                        "jwt-secret-key", {expiresIn: '1d'})
+                    res.cookie('token', token)
+                    return res.json("Success")
+                } else {
+                    return res.json("Password is incorrect");
+                }
+            })
+        } else {
+            return res.json("User not exist")
+        }
+    })
+})
+
+app.get ('/logout', (req, res) => {
+res.clearCookie('token');
+return res.json ("Success")
 })
 
 
